@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 876b9be7cbf022b4784334511c786962, type: 3}
+  m_Name: 01_wrc_wrx
+  m_EditorClassIdentifier: Assembly-CSharp::ItemDefinition
+  id: 01_wrc_wrx
+  displayName: Subaru WRX
+  description: They're calling her the world's fastest lesbian
+  generation: 1
+  isSfw: 1
+  commonalityScore: 10
+  spriteNormal: {fileID: 21300000, guid: ff00e943f72d7d243aaba0fc9432520e, type: 3}
+  spriteGrey: {fileID: 21300000, guid: d7c9382c5c7c3d24e9b03fbaacc62356, type: 3}

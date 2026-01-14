@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 3
+  tags:
+  - Ball
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - balls1
+  - balls2
+  - balls3
+  - balls4
+  - balls5
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Background
+    uniqueID: 520627547
+    locked: 0
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: MachineGlassMask
+    uniqueID: 3931039469
+    locked: 0
+  - name: MachineCapsuleDoorMask
+    uniqueID: 3167237517
+    locked: 0
+  - name: DropCapsule
+    uniqueID: 2671377247
+    locked: 0
+  - name: UI
+    uniqueID: 2307261189
+    locked: 0
+  - name: CapsuleOpen
+    uniqueID: 134310031
+    locked: 0
+  - name: FadeScreen
+    uniqueID: 118861023
+    locked: 0
+  m_RenderingLayers:
+  - Default
