@@ -52,6 +52,12 @@ public sealed class GachaController : MonoBehaviour
     [SerializeField] private WindowSlider windowSlider;
     [SerializeField] private ItemFlyToInventory itemFlyToInventory;
 
+    [Header("CollectibleOddsModifier")]
+    [SerializeField] private float latestGenMultiplier = 1.25f;
+    [SerializeField] private float nsfwOddsMultiplier = 2.0f;
+    [SerializeField] private int nsfwOddsStartHour = 20;
+    [SerializeField] private int nsfwOddsEndHour = 23;
+
     private ItemDefinition _currentReward;
     private bool _canDismiss;
     private bool _isRunning;
@@ -457,13 +463,13 @@ public sealed class GachaController : MonoBehaviour
     //    return db.Items[db.Items.Count - 1];
     //}
 
-    private static ItemDefinition PickWeightedRandom(ItemDatabase db)
+    private ItemDefinition PickWeightedRandom(ItemDatabase db)
     {
         int currentHour = System.DateTime.Now.Hour;
-        bool isNsfwTime = currentHour >= 20 && currentHour <= 23;  // 8 PM to midnight - private collectibles can be collected and viewed
+        bool isNsfwTime = currentHour >= nsfwOddsStartHour && currentHour <= nsfwOddsEndHour;
 
-        int totalWeight = 0;
-
+        //find latest gen
+        int latestGen = 0;
         for (int i = 0; i < db.Items.Count; i++)
         {
             var def = db.Items[i];
@@ -472,16 +478,35 @@ public sealed class GachaController : MonoBehaviour
             if (!def.IsSfw && !isNsfwTime)
                 continue;
 
-            int w = Mathf.Clamp(def.CommonalityScore, 1, 10);
+            if (def.Generation > latestGen)
+                latestGen = def.Generation;
+        }
 
-            // double weight of private collectibles between 8 and 12
+        float totalWeight = 0f;
+
+        for (int i = 0; i < db.Items.Count; i++)
+        {
+            var def = db.Items[i];
+            if (def == null) continue;
+
+            //only sfw during day
+            if (!def.IsSfw && !isNsfwTime)
+                continue;
+
+            float w = Mathf.Clamp(def.CommonalityScore, 1, 10);
+
+            // latest gen multiplier
+            if (def.Generation == latestGen)
+                w *= latestGenMultiplier;
+
+            // nsfw multiplier
             if (!def.IsSfw && isNsfwTime)
-                w *= 2;
+                w *= nsfwOddsMultiplier;
 
             totalWeight += w;
         }
 
-        if (totalWeight == 0)
+        if (totalWeight <= 0f)
         {
             for (int i = 0; i < db.Items.Count; i++)
             {
@@ -491,7 +516,7 @@ public sealed class GachaController : MonoBehaviour
             return db.Items[0];
         }
 
-        int roll = Random.Range(0, totalWeight);
+        float roll = Random.Range(0f, totalWeight);
 
         for (int i = 0; i < db.Items.Count; i++)
         {
@@ -500,13 +525,16 @@ public sealed class GachaController : MonoBehaviour
             if (!def.IsSfw && !isNsfwTime)
                 continue;
 
-            int w = Mathf.Clamp(def.CommonalityScore, 1, 10);
+            float w = Mathf.Clamp(def.CommonalityScore, 1, 10);
+
+            if (def.Generation == latestGen)
+                w *= latestGenMultiplier;
 
             if (!def.IsSfw && isNsfwTime)
-                w *= 2;
+                w *= nsfwOddsMultiplier;
 
             roll -= w;
-            if (roll < 0) return def;
+            if (roll < 0f) return def;
         }
 
         // fallback
